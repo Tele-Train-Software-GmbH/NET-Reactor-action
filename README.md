@@ -17,7 +17,7 @@ steps:
     uses: actions/checkout@v2
   -
     name: Obfuscate with NET Reactor
-    uses: tts-sdrissen/NET-Reactor-action@v1
+    uses: Tele-Train-Software-GmbH/NET-Reactor-action@v1
     with:
       projectfile: "myProject.nrproj"
 ```
