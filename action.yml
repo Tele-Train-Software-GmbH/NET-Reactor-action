@@ -21,7 +21,7 @@ runs:
           $WebClient = New-Object System.Net.WebClient
           $WebClient.DownloadFile($myReactorLink, $myReactorSetup)
           
-          & $myReactorSetup /silent
+          & $myReactorSetup /silent | Out-Null
         }
       shell: pwsh
     - if: runner.os == 'Linux'
@@ -42,7 +42,7 @@ runs:
     - if: runner.os == 'Windows'
       name: Run .NET REACTOR
       run: |
-        & "C:\Program Files (x86)\Eziriz\.NET Reactor\dotNET_Reactor.Console.exe" -project "${{ inputs.projectfile }}"
+        & "C:\Program Files (x86)\Eziriz\.NET Reactor\dotNET_Reactor.Console.exe" -project "${{ inputs.projectfile }}" | Out-Null
       shell: pwsh
     - if: runner.os == 'Linux'
       name: Run .NET REACTOR
