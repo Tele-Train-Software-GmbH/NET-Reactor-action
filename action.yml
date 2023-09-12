@@ -15,7 +15,8 @@ runs:
       name: Download .NET REACTOR
       run: |
         $myReactorSetup = '.\NET-REACTOR-setup.exe'
-        if (-Not Test-Path $myReactorSetup) {
+        $isInstalled = Test-Path $myReactorSetup
+        if (-Not $isInstalled) {
           $myReactorLink = 'https://www.eziriz.com/download.php?download=dotnet_reactor_setup_6_9_0_0.exe'
           $WebClient = New-Object System.Net.WebClient
           $WebClient.DownloadFile($myReactorLink, $myReactorSetup)
@@ -27,7 +28,8 @@ runs:
       name: Download .NET REACTOR
       run: |
         $myReactorSetup = '.\NET-REACTOR-setup.zip'
-        if (-Not Test-Path $myReactorSetup) {
+        $isInstalled = Test-Path $myReactorSetup
+        if (-Not $isInstalled) {
           $myReactorLink = 'https://www.eziriz.com/download.php?download=dotnet_reactor_setup_6_9_0_0_linux-x64.zip'
           $WebClient = New-Object System.Net.WebClient
           $WebClient.DownloadFile($myReactorLink, $myReactorSetup)
