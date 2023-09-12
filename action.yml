@@ -1,0 +1,49 @@
+name: 'NET-Reactor-action'
+description: 'GitHub Action for NET-Reactor by Eziriz'
+author: 'Simon Drißen'
+branding:
+  icon: 'layers'
+  color: 'blue'
+inputs:
+  projectfile:
+    description: 'Path to .NET Reactor project file (nrproj-file)'
+    required: true
+runs:
+  using: "composite"
+  steps:  
+    - if: runner.os == 'Windows'
+      name: Download .NET REACTOR
+      run: |
+        $myReactorSetup = '.\NET-REACTOR-setup.exe'
+        if (-Not Test-Path $myReactorSetup) {
+          $myReactorLink = 'https://www.eziriz.com/download.php?download=dotnet_reactor_setup_6_9_0_0.exe'
+          $WebClient = New-Object System.Net.WebClient
+          $WebClient.DownloadFile($myReactorLink, $myReactorSetup)
+          
+          & $myReactorSetup /silent
+        }
+      shell: pwsh
+    - if: runner.os == 'Linux'
+      name: Download .NET REACTOR
+      run: |
+        $myReactorSetup = '.\NET-REACTOR-setup.zip'
+        if (-Not Test-Path $myReactorSetup) {
+          $myReactorLink = 'https://www.eziriz.com/download.php?download=dotnet_reactor_setup_6_9_0_0_linux-x64.zip'
+          $WebClient = New-Object System.Net.WebClient
+          $WebClient.DownloadFile($myReactorLink, $myReactorSetup)
+          
+          Expand-Archive -Path $myReactorSetup -DestinationPath ./
+          
+          ./dotNET_Reactor
+        }
+      shell: pwsh
+    - if: runner.os == 'Windows'
+      name: Run .NET REACTOR
+      run: |
+        & "C:\Program Files (x86)\Eziriz\.NET Reactor\dotNET_Reactor.Console.exe" -project "${{ inputs.projectfile }}"
+      shell: pwsh
+    - if: runner.os == 'Linux'
+      name: Run .NET REACTOR
+      run: |
+        ./dotNET_Reactor -project "${{ inputs.projectfile }}"
+      shell: bash
